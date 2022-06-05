@@ -30,3 +30,29 @@ class Item(models.Model):
 
     def __str__(self):
         return self.name
+
+class Event(models.Model):
+    name = models.CharField(max_length=200)
+    date = models.CharField(max_length=200)
+    time = models.CharField(max_length=200)
+    format = models.CharField(max_length=200)
+    prizeSupport = models.IntegerField(default=0)
+    entry = models.IntegerField(default=0)
+    registrationLink = models.CharField(max_length=200)
+    location = models.CharField(max_length=200)
+    qualifications = models.CharField(max_length=200)
+    top8 = models.BooleanField(default=False)
+    cap = models.IntegerField(default=0) 
+
+
+    def __str__(self):
+        return self.name + " " + str(self.time)
+
+class Punch(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    time_in = models.DateTimeField('date published')
+    time_out = models.DateTimeField(default=None, null=True)
+    type = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.user.username + " " + self.type

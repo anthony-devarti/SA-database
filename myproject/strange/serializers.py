@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User, Group
-from strange.models import Order, Item
+from strange.models import Order, Item, Payment, Event, Punch
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -58,3 +58,32 @@ class UserSerializer(serializers.ModelSerializer):
             'groups'
         ]
         depth = 1
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = [
+            'id',
+            'name',
+            'date',
+            'time',
+            'format',
+            'prizeSupport',
+            'entry',
+            'registrationLink',
+            'location',
+            'qualifications',
+            'top8',
+            'cap'
+        ]
+
+class PunchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Punch
+        fields = [
+            'id',
+            'user',
+            'time_in',
+            'time_out',
+            'type'
+        ]

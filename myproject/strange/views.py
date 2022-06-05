@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, permissions
-from strange.serializers import OrderSerializer, ItemSerializer, UserSerializer
-from strange.models import Order, Item
+from strange.serializers import OrderSerializer, ItemSerializer, UserSerializer, EventSerializer, PunchSerializer
+from strange.models import Order, Item, Payment, Event, Punch
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.decorators import api_view, action
@@ -65,3 +65,31 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['id', 'groups__name']
+
+
+class EventViewSet(viewsets.ModelViewSet):
+    """
+    API Endpoint for Events
+    """
+    queryset=Event.objects.all()
+    serializer_class = EventSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['id', 'name']
+
+
+class PunchViewSet(viewsets.ModelViewSet):
+    """
+    API Endpoint for Punches
+    """
+    queryset=Punch.objects.all()
+    serializer_class = PunchSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['id', 'user__id']
+
+    def patch(self, replace, *args, **kwargs):
+        instance = Punch.objects.all()[0]
+        data = replace.data
+        instance.time_out = data['time_out']
+
+        instance.save()
+        return HttpResponse(Punch.objects.all())
