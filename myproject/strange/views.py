@@ -86,10 +86,10 @@ class PunchViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['id', 'user__id']
 
-    def patch(self, replace, *args, **kwargs):
-        instance = Punch.objects.all()[0]
-        data = replace.data
-        instance.time_out = data['time_out']
+    # def patch(self, replace, *args, **kwargs):
+    #     instance = Punch.objects.get(pk=kwargs['id'])
+    #     data = replace.data
+    #     instance.time_out = data['time_out']
 
-        instance.save()
-        return HttpResponse(Punch.objects.all())
+    #     instance.save()
+    #     return HttpResponse(Punch.objects.get(pk=kwargs['id'])) 

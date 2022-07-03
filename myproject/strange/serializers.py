@@ -77,13 +77,17 @@ class EventSerializer(serializers.ModelSerializer):
             'cap'
         ]
 
-class PunchSerializer(serializers.ModelSerializer):
+class PatchModelSerializer(serializers.ModelSerializer):
+    def __init__(self, *args, **kwargs):
+        kwargs['partial'] = True
+        super(PatchModelSerializer, self).__init__(*args, **kwargs)
+
+class PunchSerializer(PatchModelSerializer):
     class Meta:
         model = Punch
         fields = [
             'id',
             'user',
             'time_in',
-            'time_out',
-            'type'
+            'time_out'
         ]

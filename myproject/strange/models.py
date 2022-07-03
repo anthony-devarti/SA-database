@@ -52,7 +52,6 @@ class Punch(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     time_in = models.DateTimeField('date published')
     time_out = models.DateTimeField(default=None, null=True)
-    type = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.user.username + " " + self.type
+        return self.user.username + " " + str(self.time_in)
